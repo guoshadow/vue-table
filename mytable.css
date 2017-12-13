@@ -1,0 +1,22 @@
+#demo{color:#2c3e50}
+a,a:hover{text-decoration:none;color:#39c;cursor: pointer}
+th, td{min-width:120px;padding:8px;border-bottom: 1px solid #e7e7e7;border-right:1px solid #e7e7e7}
+
+.ivu-icon{display:inline-block;width:18px;height:18px;}
+.ivu-icon-plus{background-image:url("http://ygqms.yiguo.com/Content/miniui/images/tree/collapse.gif")}
+.ivu-icon-minus{background-image:url("http://ygqms.yiguo.com/Content/miniui/images/tree/expand.gif")}
+
+.ms-tree-space {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  width: 14px;
+  height: 14px;
+}
+
+.ms-tree-space::before {
+  content: ""
+}
