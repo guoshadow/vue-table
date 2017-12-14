@@ -1,5 +1,5 @@
 const columnsdetail = [
-    {key:'id',name:'明细id'},
+    // {key:'id',name:'明细id'},
     {key:'code',name:'明细编码'},
     {key:'name',name:'明细名称'},
     {key:'status',name:'明细状态'},
@@ -8,13 +8,12 @@ const columnsdetail = [
 //注册定制表格组件
 Vue.component("demo-table", {
     template: "#table-template",
-    props: ['datalist', 'columns', 'pagination', 'noMoreText'],
+    props: ['datalist', 'columns', 'pagination', 'nomoretext'],
     data() {
         return {
             checks: false,//全选
             checkGroup: [],//复选框数组 ids
             dataLength: 0,//树形数据长度
-            columnsdetail:[{key:id,name:''}]
         }
     },
     watch: {
@@ -136,21 +135,17 @@ Vue.component("demo-table", {
                     });
                 }
                 if ((typeof item.show) == "undefined") {
-                    item = Object.assign({}, item, {
-                        "isShow": false
-                    });
+                    item = Object.assign({}, item, {"isShow": false});
                 }
-                item = Object.assign({}, item, {
-                    "load": (item.expanded ? true : false)
-                });
-                let exProps = {}
+                item = Object.assign({}, item, {"load": (item.expanded ? true : false)});
+                // let exProps = {}
                 if (item.children) {
-                    spaceHtml += "<i class='ms-tree-space'></i>"
+                    /*spaceHtml += "<i class='ms-tree-space'></i>"
                     item = Object.assign({}, item, {
                         "parent": item,
                         "level": level + 1,
                         "spaceHtml": spaceHtml
-                    });
+                    });*/
                 }
                 else {
                     item = Object.assign({}, item, {
@@ -269,7 +264,7 @@ Vue.component("demo-table", {
             };
             return map[toString.call(obj)];
         },
-        //获取对象的属性名或属性值
+        //获取对象的属性名或属性值(弃用)
         getObjKV(obj, kv) {
             if (kv === 'key') {
                 let arr = Object.keys(obj);
@@ -288,4 +283,4 @@ Vue.component("demo-table", {
 //注册简单表格组件
 //      Vue.componet("simple-table",{"template":"#"});
 //注册分页组件
-//      Vue.componet("simple-nag",{"template":"#"});
+//      Vue.componet("simple-pagination",{"template":"#"});

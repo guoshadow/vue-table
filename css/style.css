@@ -1,4 +1,5 @@
 body {
+  margin:0;padding:0;
   font-family: Helvetica Neue, Arial, sans-serif;
   font-size: 14px;
   color: #444;
@@ -12,9 +13,9 @@ table {
   border-collapse: collapse;
   background-color: #fff;
 }
-
+.table-content{overflow-x:auto;box-shadow: 1px 1px 10px #333}
 th {
-  background-color: dodgerblue;
+  background-color:#2c3e50;
   color:#fff;
   /*color: rgba(255,255,255,0.66);*/
   cursor: pointer;

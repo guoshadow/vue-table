@@ -9,7 +9,7 @@
 <body>
 
 <template id="table-template">
-    <div v-if="datalist && datalist.length>=0">
+    <div class="table-content" v-if="datalist && datalist.length>=0">
         <!--表格列表-->
         <table class="table">
             <thead>
@@ -40,53 +40,59 @@
                             </a>
                         </div>
                         <!--列-->
-                        <label v-else="!column.type" @click="toggle(index,row)">
-                <span v-if='cindex==iconRow()'>
-                  <!--<em v-if="row.level==1&&row.children" v-html="row.spaceHtml"></em>-->
-                  <em v-if="row.children" class="ivu-icon"
-                      :class="{'ivu-icon-plus':!row.expanded,'ivu-icon-minus':row.expanded }"></em>
-                </span>
+                        <label v-else="!column.type && !row.children" @click="toggle(index,row)">
+                            <span v-if='cindex==iconRow()'>
+                                <!--<i v-html='row.spaceHtml'></i>-->
+                                <i v-if="row.children && row.children.length>0" class="ivu-icon"
+                                  :class="{'ivu-icon-plus':!row.expanded,'ivu-icon-minus':row.expanded }"></i>
+                                <i v-else class="ivu-icon"></i>
+                            </span>
                             {{row[column.key]}}
                         </label>
                     </td>
                 </tr>
                 <tr v-if="row.expanded">
                     <td :colspan="columns.length + 1">
-                        <div v-if="row.children">
-                            <!--<div v-text="rowdetail"></div>-->
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <!--<th v-for="colhd in getObjKV(row.children[0],'key')">{{colhd}}</th>-->
-                                        <th v-for="colhd in columnsdetail">{{colhd.name}}</th>
-                                    </tr>
+                        <div v-if="row.children && row.children.length>0" class="table-content">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <!--<th v-for="colhd in getObjKV(row.children[0],'key')">{{colhd}}</th>-->
+                                    <th v-for="colhd in columnsdetail">{{colhd.name}}</th>
+                                </tr>
                                 </thead>
-                                   <tbody><tr v-for="rowdetail in row.children"><td v-for="coldetail in getObjKV(rowdetail)">{{coldetail}}</td></tr></tbody>
-                                </table>
+                                <tbody>
+                                <tr v-for="rowdetail in row.children">
+                                    <!--<td v-for="coldetail in getObjKV(rowdetail)">{{coldetail}}</td>-->
+                                    <td v-for="colhd in columnsdetail">{{rowdetail[colhd.key]}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div v-else v-text="noMoreText"></div>
+                        <!--<span v-else v-text="nomoretext"></span>-->
                     </td>
                 </tr>
-                <tr v-if="datalist.length===0">
+            </template>
+            <!--no more text-->
+            <template v-if="datalist.length===0">
+                <tr>
                     <td :colspan="columns.length + 1">
-                        <span v-text="noMoreText"></span>
+                        <span v-text="nomoretext"></span>
                     </td>
                 </tr>
             </template>
             </tbody>
         </table>
-        <div v-text="noMoreText"></div>
+        <!--<div v-text="noMoreText"></div>-->
         <!--分页组件-->
         <div style="float: right" v-if="pagination">
-            #分页组件待完善
+            {{pagination.noMoreText}}
         </div>
     </div>
 </template>
 <template id=""></template>
 <div id="demo">
-    <demo-table v-bind:datalist="dataItems" v-bind:columns="dataColumns" :pagination="pagination"
-                :noMoreText="noMoreText"
-                @on-row-click='rowClick' @on-selection-change='selectionClick'
+    <demo-table v-bind:datalist="dataItems" v-bind:columns="dataColumns" v-bind:pagination="pagination" v-bind:nomoretext="noMoreText" v-on:on-row-click='rowClick' @on-selection-change='selectionClick'
                 @on-expand-click="expandclick"></demo-table>
 </div>
 
@@ -103,10 +109,10 @@
                     {title: '名称', key: 'name'},
                     {title: '状态', key: 'status', align: "center"},
                     {title: '备注', key: 'remark'},
-                    {type: 'action', title: "操作", actions: [{text: "订单明细"}, {text: "预约送货"}]},
+                    {type: 'action', title: "操作", actions: [{text: "订单明细",url:""}, {text: "预约送货",url:""}]},
                 ],
                 dataItems: [
-                    {"id":"1","code":"0001","name":"测试数据1","status":"启用","remark":"测试数据测试数据",expanded:0},
+                    {"id":"1","code":"0001","name":"测试数据1","status":"启用","remark":"测试数据测试数据",expanded:0,children: []},
                     {id: "2",code: "0002",name: "测试数据2",status: "启用",remark: "测试数据测试数据",expanded:0,
                       children: [
                         {
@@ -127,8 +133,8 @@
                     {"id":"3","code":"0003","name":"测试数据3","status":"启用","remark":"测试数据测试数据",expanded:0},
                     {"id":"4","code":"0004","name":"测试数据4","status":"启用","remark":"测试数据测试数据",expanded:0}
                 ],
-                pagination: {},
-                noMoreText: 'No more data...'
+                pagination: {noMoreText:"coming soon!分页组件"},
+                noMoreText: "No more data...",
             }
         },
         methods: {
